@@ -1,0 +1,642 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>TravelExplorer</title>
+    <style>
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+        
+        body {
+            line-height: 1.6;
+            color: #e67070;
+            background-color: #f8f9fa;
+        }
+        
+        /* Navigation Bar */
+        nav {
+            background-color: #2c3e50;
+            padding: 1rem;
+            position: fixed;
+            width: 100%;
+            top: 0;
+            z-index: 1000;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
+        }
+        
+        .logo {
+            color: white;
+            font-weight: bold;
+            font-size: 1.5rem;
+            text-decoration: none;
+            display: flex;
+            align-items: center;
+        }
+        
+        .logo img {
+            height: 40px;
+            margin-right: 10px;
+        }
+        
+        .nav-links {
+            display: flex;
+            list-style: none;
+        }
+        
+        .nav-links li {
+            margin-left: 1.5rem;
+        }
+        
+        .nav-links a {
+            color: white;
+            text-decoration: none;
+            transition: color 0.3s;
+        }
+        
+        .nav-links a:hover {
+            color: #3498db;
+        }
+        
+        .hamburger {
+            display: none;
+            cursor: pointer;
+            background: none;
+            border: none;
+            color: white;
+            font-size: 1.5rem;
+        }
+        
+        /* Cover Image Section */
+        .cover-section {
+            height: 80vh;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            background-size: cover;
+            background-position: center;
+            position: relative;
+            margin-top: 70px;
+            color: rgb(223, 88, 88);
+        }
+        
+        .cover-overlay {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.5);
+            
+        }
+        
+        .cover-content {
+            position: relative;
+            z-index: 10;
+            text-align: center;
+            padding: 2rem;
+        }
+        
+        .cover-content h1 {
+            font-size: 3.5rem;
+            margin-bottom: 1rem;
+            text-shadow: 2px 2px 4px rgba(26, 21, 21, 0.7);
+        }
+        
+        
+        /* Card Section */
+        .cards-section {
+            padding: 5rem 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+        
+        .section-title {
+            text-align: center;
+            margin-bottom: 3rem;
+            color: #3b7dbe;
+            font-size: 2.5rem;
+        }
+        
+        .cards-container {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            justify-content: center;
+        }
+        
+        .card {
+            background: white;
+            border-radius: 10px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+            transition: transform 0.3s, box-shadow 0.3s;
+            flex: 1 1 300px;
+            max-width: 350px;
+            display: flex;
+            flex-direction: column;
+        }
+        
+        .card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 25px rgba(0, 0, 0, 0.2);
+        }
+        
+        .card-image {
+            height: 200px;
+            overflow: hidden;
+        }
+        
+        .card-image img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.5s;
+        }
+        
+        .card:hover .card-image img {
+            transform: scale(1.05);
+        }
+        
+        .card-content {
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            flex: 1;
+        }
+        
+        .card-title {
+            font-size: 1.4rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+        
+        .card-description {
+            color: #666;
+            flex: 1;
+        }
+        
+        .card-button {
+            display: inline-block;
+            background-color: #3498db;
+            color: white;
+            text-decoration: none;
+            padding: 0.5rem 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            text-align: center;
+            transition: background-color 0.3s;
+        }
+        
+        .card-button:hover {
+            background-color: #2980b9;
+        }
+        
+        /* Form Section */
+        .form-section {
+            background-color: #ecf0f1;
+            padding: 5rem 2rem;
+        }
+        
+        .form-container {
+            max-width: 700px;
+            margin: 0 auto;
+            background: white;
+            padding: 2rem;
+            border-radius: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+        
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+        
+        .form-label {
+            display: block;
+            margin-bottom: 0.5rem;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+        
+        .form-input {
+            width: 100%;
+            padding: 0.75rem;
+            border: 1px solid #ddd;
+            border-radius: 5px;
+            font-size: 1rem;
+            transition: border-color 0.3s;
+        }
+        
+        .form-input:focus {
+            outline: none;
+            border-color: #3498db;
+        }
+        
+        .error-message {
+            color: #e74c3c;
+            font-size: 0.85rem;
+            margin-top: 0.3rem;
+            display: none;
+        }
+        
+        .form-button {
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            padding: 0.75rem 1.5rem;
+            font-size: 1rem;
+            border-radius: 5px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        
+        .form-button:hover {
+            background-color: #1a252f;
+        }
+        
+        .success-message {
+            background-color: #2ecc71;
+            color: white;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-top: 1rem;
+            display: none;
+        }
+        
+        .saved-data {
+            margin-top: 2rem;
+            display: none;
+        }
+        
+        .saved-data h3 {
+            margin-bottom: 1rem;
+            color: #2c3e50;
+        }
+        
+        .data-card {
+            background-color: #f8f9fa;
+            padding: 1rem;
+            border-radius: 5px;
+            margin-bottom: 1rem;
+            border-left: 4px solid #3498db;
+        }
+        
+        /* Footer */
+        footer {
+            background-color: #2c3e50;
+            color: white;
+            padding: 2rem;
+            text-align: center;
+        }
+        
+        /* Responsive Design */
+        @media (max-width: 768px) {
+            .nav-links {
+                display: none;
+                position: absolute;
+                top: 70px;
+                left: 0;
+                width: 100%;
+                background-color: #2c3e50;
+                flex-direction: column;
+                align-items: center;
+                padding: 1rem 0;
+            }
+            
+            .nav-links.active {
+                display: flex;
+            }
+            
+            .nav-links li {
+                margin: 0.5rem 0;
+            }
+            
+            .hamburger {
+                display: block;
+            }
+            
+            .cover-content h1 {
+                font-size: 2.5rem;
+            }
+            
+            .cover-content p {
+                font-size: 1.2rem;
+            }
+            
+            .section-title {
+                font-size: 2rem;
+            }
+        }
+        
+        @media (max-width: 480px) {
+            .cover-content h1 {
+                font-size: 2rem;
+            }
+            
+            .cover-section {
+                height: 60vh;
+            }
+        }
+    </style>
+</head>
+<body>
+    <!-- Navigation Section -->
+    <nav>
+        <a href="#" class="logo">
+            <img>
+            TravelExplorer
+        </a>
+        <button class="hamburger">☰</button>
+        <ul class="nav-links">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">Destinations</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+    </nav>
+
+    <!-- Cover Image Section -->
+    <section class="cover-section">
+        <div class="cover-overlay"><img src="BG.avif" alt="BD" width="2000" height="900"></div>
+        <div class="cover-content">
+            <h1>Explore the World</h1>
+        </div>
+    </section>
+
+    <!-- Card Section -->
+    <section class="cards-section">
+        <h2 class="section-title">Popular Destinations</h2>
+        <div class="cards-container">
+            <!-- Card 1 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="EMG.jpg" alt="Cox's Bazar">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Cox's Bazar</h3>
+                    <p class="card-description">Cox’s Bazar is a town on the southeast coast of Bangladesh. It’s known for its very long, sandy beachfront, stretching from Sea Beach in the north to Kolatoli Beach in the south.</p>
+                    <a href="#" class="card-button">Learn More</a>
+                </div>
+            </div>
+            
+            <!-- Card 2 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="EMG1.jpg" alt="Saint Martin Island">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Saint Martin Island</h3>
+                    <p class="card-description">The island is known for its natural beauty, calm waters, and opportunities for swimming, snorkeling, and sunbathing.</p>
+                    <a href="#" class="card-button">Learn More</a>
+                </div>
+            </div>
+            
+            <!-- Card 3 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="Tea-2.jpg" alt="Sylhet">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Sylhet</h3>
+                    <p class="card-description">Sylhet is a city in eastern Bangladesh, on the Surma River. It’s known for its Sufi shrines, like the ornate tomb and mosque of 14th-century saint Hazrat Shah Jalal, now a major pilgrimage site near Dargah Gate.</p>
+                    <a href="#" class="card-button">Learn More</a>
+                </div>
+            </div>
+            
+            <!-- Card 4 -->
+            <div class="card">
+                <div class="card-image">
+                    <img src="kuakata-patuakhai.jpg.webp"Kuakata">
+                </div>
+                <div class="card-content">
+                    <h3 class="card-title">Kuakata</h3>
+                    <p class="card-description">Kuakata is a town of Patuakhali located in southern Bangladesh known for its panoramic sea beach.</p>
+                    <a href="#" class="card-button">Learn More</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Form Section -->
+    <section class="form-section">
+        <div class="form-container">
+            <h2 class="section-title">Contact Us</h2>
+            <form id="contact-form">
+                <div class="form-group">
+                    <label for="name" class="form-label">Full Name</label>
+                    <input type="text" id="name" name="name" class="form-input" placeholder="Enter your full name">
+                    <p class="error-message" id="name-error">Name is required</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="email" class="form-label">Email Address</label>
+                    <input type="email" id="email" name="email" class="form-input" placeholder="Enter your email address">
+                    <p class="error-message" id="email-error">Please enter a valid email address</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="destination" class="form-label">Preferred Destination</label>
+                    <input type="text" id="destination" name="destination" class="form-input" placeholder="Where would you like to go?">
+                    <p class="error-message" id="destination-error">Destination is required</p>
+                </div>
+                
+                <div class="form-group">
+                    <label for="message" class="form-label">Message</label>
+                    <textarea id="message" name="message" class="form-input" rows="5" placeholder="Tell us about your travel preferences"></textarea>
+                    <p class="error-message" id="message-error">Message is required</p>
+                </div>
+                
+                <button type="submit" class="form-button">Send Message</button>
+            </form>
+            
+            <div class="success-message" id="success-message">
+                Thank you! Your message has been received. We'll get back to you soon.
+            </div>
+            
+            <div class="saved-data" id="saved-data">
+                <h3>Your Previous Inquiries</h3>
+                <div id="data-container"></div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer>
+        <p>&copy; 2025 TravelExplorer. All rights reserved.</p>
+    </footer>
+
+    <script>
+        // Navigation Toggle for mobile
+        document.querySelector('.hamburger').addEventListener('click', function() {
+            document.querySelector('.nav-links').classList.toggle('active');
+        });
+        
+        // Form Validation and LocalStorage
+        document.addEventListener('DOMContentLoaded', function() {
+            const form = document.getElementById('contact-form');
+            const successMessage = document.getElementById('success-message');
+            const savedDataSection = document.getElementById('saved-data');
+            const dataContainer = document.getElementById('data-container');
+            
+            // Display saved data if available
+            displaySavedData();
+            
+            form.addEventListener('submit', function(e) {
+                e.preventDefault();
+                
+                if (validateForm()) {
+                    const formData = {
+                        name: document.getElementById('name').value,
+                        email: document.getElementById('email').value,
+                        destination: document.getElementById('destination').value,
+                        message: document.getElementById('message').value,
+                        date: new Date().toLocaleString()
+                    };
+                    
+                    saveFormData(formData);
+                    form.reset();
+                    successMessage.style.display = 'block';
+                    
+                    // Hide success message after 3 seconds
+                    setTimeout(() => {
+                        successMessage.style.display = 'none';
+                    }, 3000);
+                    
+                    // Update displayed data
+                    displaySavedData();
+                }
+            });
+            
+            function validateForm() {
+                let isValid = true;
+                
+                // Name validation
+                const name = document.getElementById('name');
+                const nameError = document.getElementById('name-error');
+                if (!name.value.trim()) {
+                    nameError.style.display = 'block';
+                    name.style.borderColor = '#e74c3c';
+                    isValid = false;
+                } else {
+                    nameError.style.display = 'none';
+                    name.style.borderColor = '#ddd';
+                }
+                
+                // Email validation
+                const email = document.getElementById('email');
+                const emailError = document.getElementById('email-error');
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (!email.value.trim() || !emailPattern.test(email.value)) {
+                    emailError.style.display = 'block';
+                    email.style.borderColor = '#e74c3c';
+                    isValid = false;
+                } else {
+                    emailError.style.display = 'none';
+                    email.style.borderColor = '#ddd';
+                }
+                
+                // Destination validation
+                const destination = document.getElementById('destination');
+                const destinationError = document.getElementById('destination-error');
+                if (!destination.value.trim()) {
+                    destinationError.style.display = 'block';
+                    destination.style.borderColor = '#e74c3c';
+                    isValid = false;
+                } else {
+                    destinationError.style.display = 'none';
+                    destination.style.borderColor = '#ddd';
+                }
+                
+                // Message validation
+                const message = document.getElementById('message');
+                const messageError = document.getElementById('message-error');
+                if (!message.value.trim()) {
+                    messageError.style.display = 'block';
+                    message.style.borderColor = '#e74c3c';
+                    isValid = false;
+                } else {
+                    messageError.style.display = 'none';
+                    message.style.borderColor = '#ddd';
+                }
+                
+                return isValid;
+            }
+            
+            function saveFormData(data) {
+                // Get existing data from localStorage or initialize empty array
+                let savedData = JSON.parse(localStorage.getItem('contactFormData')) || [];
+                
+                // Add new data to array
+                savedData.push(data);
+                
+                // Save updated array back to localStorage
+                localStorage.setItem('contactFormData', JSON.stringify(savedData));
+            }
+            
+            function displaySavedData() {
+                const savedData = JSON.parse(localStorage.getItem('contactFormData')) || [];
+                
+                if (savedData.length > 0) {
+                    savedDataSection.style.display = 'block';
+                    dataContainer.innerHTML = '';
+                    
+                    // Show the 3 most recent inquiries
+                    const recentData = savedData.slice(-3).reverse();
+                    
+                    recentData.forEach(data => {
+                        const dataCard = document.createElement('div');
+                        dataCard.className = 'data-card';
+                        dataCard.innerHTML = `
+                            <p><strong>Name:</strong> ${data.name}</p>
+                            <p><strong>Email:</strong> ${data.email}</p>
+                            <p><strong>Destination:</strong> ${data.destination}</p>
+                            <p><strong>Date:</strong> ${data.date}</p>
+                        `;
+                        dataContainer.appendChild(dataCard);
+                    });
+                } else {
+                    savedDataSection.style.display = 'none';
+                }
+            }
+            
+            // Add input event listeners to validate in real-time
+            document.getElementById('name').addEventListener('input', function() {
+                if (this.value.trim()) {
+                    document.getElementById('name-error').style.display = 'none';
+                    this.style.borderColor = '#ddd';
+                }
+            });
+            
+            document.getElementById('email').addEventListener('input', function() {
+                const emailPattern = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+                if (this.value.trim() && emailPattern.test(this.value)) {
+                    document.getElementById('email-error').style.display = 'none';
+                    this.style.borderColor = '#ddd';
+                }
+            });
+            
+            document.getElementById('destination').addEventListener('input', function() {
+                if (this.value.trim()) {
+                    document.getElementById('destination-error').style.display = 'none';
+                    this.style.borderColor = '#ddd';
+                }
+            });
+            
+            document.getElementById('message').addEventListener('input', function() {
+                if (this.value.trim()) {
+                    document.getElementById('message-error').style.display = 'none';
+                    this.style.borderColor = '#ddd';
+                }
+            });
+        });
+    </script>
+</body>
+</html>
